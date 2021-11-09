@@ -15,7 +15,7 @@ const unsigned int WINDOW_X_SIZE = 1920;
 const unsigned int WINDOW_Y_SIZE = 1080;
 const unsigned int N_MAX = 255;
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
 
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     auto timeStart = std::chrono::high_resolution_clock::now();
     mandel.runUpdate();
     auto timeStop = std::chrono::high_resolution_clock::now();
-    int updateTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeStop - timeStart).count();
+    long int updateTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeStop - timeStart).count();
     std::cout << "updatetime: " << updateTime << "ms\n";
     updateTimeStat.setValue(std::to_string(updateTime) + "ms");
     window.clear();

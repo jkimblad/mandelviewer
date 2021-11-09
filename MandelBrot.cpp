@@ -1,6 +1,6 @@
 #include "MandelBrot.hpp"
 
-Mandelbrot::Mandelbrot(const unsigned int window_x_size, const unsigned int window_y_size, const unsigned int n_max) : window_x_size(window_x_size), window_y_size(window_y_size), n_max(n_max) {
+Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_) : window_x_size(window_x_size_), window_y_size(window_y_size_), n_max(n_max_) {
     drawImage.create(window_x_size, window_y_size, sf::Color(0, 255, 0));
 }
 
@@ -8,8 +8,8 @@ void Mandelbrot::runUpdate() {
     double x_step = (xRange.second - xRange.first) / window_x_size;    
     double y_step = (yRange.second - yRange.first) / window_y_size;
 
-    for(int yPixel = 0; yPixel < window_y_size; ++yPixel) {
-        for(int xPixel = 0; xPixel < window_x_size; ++xPixel) {
+    for(unsigned int yPixel = 0; yPixel < window_y_size; ++yPixel) {
+        for(unsigned int xPixel = 0; xPixel < window_x_size; ++xPixel) {
             double b = yRange.first + (yPixel * y_step);
             double a = xRange.first + (xPixel * x_step);
             std::complex<double> c = {a, b};
@@ -19,7 +19,7 @@ void Mandelbrot::runUpdate() {
                 z = std::pow(z, 2) + c;
                 ++n;
             }
-            sf::Color pixel_color = {(uint8_t)(n * (255 / n_max)), 0, 0};
+            sf::Color pixel_color = {static_cast<uint8_t>(n * (255 / n_max)), 0, 0};
             drawImage.setPixel(xPixel, yPixel, pixel_color);
         }
     }
