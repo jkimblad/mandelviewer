@@ -1,6 +1,6 @@
 #include "StatsEntry.hpp"
 
-StatsEntry::StatsEntry(const std::string key, const std::string value, const sf::Font font, unsigned int size) : key(key), text({ key + ":\t" + value }, font, size)
+StatsEntry::StatsEntry(const std::string &key, const std::string &value, const sf::Font &font, const unsigned int &size) : key(key), text({ key + ":\t" + value }, font, size)
 {
 }
 

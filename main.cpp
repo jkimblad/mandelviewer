@@ -27,7 +27,7 @@ int main(int, char *[])
   Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX };
 
   StatsBox sb = { WINDOW_X_SIZE - 300, 300 };
-  StatsEntry &updateTimeStat = sb.addStat({ "update_time" }, { "0" });
+  std::shared_ptr<StatsEntry> updateTimeStat = sb.addStat({ "update_time" }, { "0" });
 
   while (window.isOpen()) {
 
@@ -55,7 +55,7 @@ int main(int, char *[])
     auto timeStop = std::chrono::high_resolution_clock::now();
     long int updateTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeStop - timeStart).count();
     std::cout << "updatetime: " << updateTime << "ms\n";
-    updateTimeStat.setValue(std::to_string(updateTime) + "ms");
+    updateTimeStat->setValue(std::to_string(updateTime) + "ms");
     window.clear();
     window.draw(mandel.toSprite());
     //window.draw(temp);

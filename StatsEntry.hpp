@@ -11,7 +11,7 @@ class StatsEntry
 {
 public:
     // Functions
-    StatsEntry(const std::string, const std::string, const sf::Font, unsigned int);
+    StatsEntry(const std::string&, const std::string&, const sf::Font&, const unsigned int&);
     void setValue(std::string);
     void deleteEntry();
 
