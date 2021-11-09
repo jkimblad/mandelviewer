@@ -10,21 +10,21 @@ class StatsBox;
 class StatsEntry
 {
 public:
-    // Functions
-    StatsEntry(const std::string&, const std::string&, const sf::Font&, const unsigned int&);
-    void setValue(std::string);
-    void deleteEntry();
+  // Functions
+  StatsEntry(const std::string &, const std::string &, const sf::Font &, const unsigned int &);
+  void setValue(std::string);
+  void deleteEntry();
 
 private:
-    // Friends
-    friend StatsBox;
-    // Functions
-    void setPosition(const sf::Vector2f);
-    const sf::Text &getText() const;
-    void clearUpdatedFlag();
-    bool isDeleted() const;
-    // Objects
-    const std::string key = {};
-    sf::Text text = {};
-    bool deleted = false;
+  // Friends
+  friend StatsBox;
+  // Functions
+  void setPosition(const sf::Vector2f);
+  const sf::Text &getText() const;
+  void clearUpdatedFlag();
+  bool isDeleted() const;
+  // Objects
+  const std::string key = {};
+  sf::Text text = {};
+  bool deleted = false;
 };

@@ -9,7 +9,7 @@ StatsBox::StatsBox(float xPos, float yPos) : pos{ xPos, yPos }
 
 std::shared_ptr<StatsEntry> StatsBox::addStat(std::string key, std::string value)
 {
-  std::shared_ptr<StatsEntry> statsEntry_sp = std::make_shared<StatsEntry, std::string&, std::string&, sf::Font&, const unsigned int&>(key, value, textFont, FONT_SIZE);
+  std::shared_ptr<StatsEntry> statsEntry_sp = std::make_shared<StatsEntry, std::string &, std::string &, sf::Font &, const unsigned int &>(key, value, textFont, FONT_SIZE);
   statsEntries.push_back(statsEntry_sp);
   return statsEntries.back();
 }
