@@ -1,17 +1,93 @@
 #include "MandelBrot.hpp"
 
-Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_) : window_x_size(window_x_size_), window_y_size(window_y_size_), n_max(n_max_)
+Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_, std::pair<double, double> xRange_, std::pair<double, double> yRange_)
+  : windowXSize(window_x_size_),
+    windowYSize(window_y_size_),
+    n_max(n_max_),
+    xRange(xRange_),
+    yRange(yRange_),
+    view(sf::FloatRect(0.0f, 0.0f, static_cast<float>(window_x_size_), static_cast<float>(window_y_size_)))
 {
-  drawImage.create(window_x_size, window_y_size, sf::Color(0, 255, 0));
+  drawImage.create(windowXSize, windowYSize, sf::Color(0, 255, 0));
 }
 
-void Mandelbrot::runUpdate()
+void Mandelbrot::runUpdate(const sf::Vector2i &mousePos)
 {
-  double x_step = (xRange.second - xRange.first) / window_x_size;
-  double y_step = (yRange.second - yRange.first) / window_y_size;
+  if (updateTime) {
+    updateImage();
+  }
 
-  for (unsigned int yPixel = 0; yPixel < window_y_size; ++yPixel) {
-    for (unsigned int xPixel = 0; xPixel < window_x_size; ++xPixel) {
+  updatePanning(mousePos);
+}
+
+bool Mandelbrot::isMouseInWindow(const sf::Vector2i mousePos)
+{
+  if (static_cast<unsigned int>(mousePos.x) < windowXSize && mousePos.x > 0 && static_cast<unsigned int>(mousePos.y) < windowYSize && mousePos.y > 0) {
+    return true;
+  }
+
+  return false;
+}
+
+void Mandelbrot::resetView()
+{
+  sf::Vector2f viewCenter = view.getCenter();
+  sf::Vector2f viewSize = view.getSize();
+  sf::Vector2f topLeft{ viewCenter.x - (viewSize.x / 2),
+    viewCenter.y - (viewSize.y / 2) };
+  sf::Vector2f bottomRight{ topLeft.x + viewSize.x, topLeft.y + viewSize.y };
+
+  // first element is top left, second is bottom right
+  std::pair<double, double> xRatio = { topLeft.x / static_cast<float>(windowXSize), bottomRight.x / static_cast<float>(windowXSize) };
+  std::pair<double, double> yRatio = { topLeft.y / static_cast<float>(windowYSize), bottomRight.y / static_cast<float>(windowYSize) };
+
+  xRange = {
+    xRange.first + ((xRange.second - xRange.first) * xRatio.first), xRange.first + ((xRange.second - xRange.first) * xRatio.second)
+  };
+  yRange = {
+    yRange.first + ((yRange.second - yRange.first) * yRatio.first), yRange.first + ((yRange.second - yRange.first) * yRatio.second)
+  };
+
+  view = sf::View(sf::FloatRect(0.0f, 0.0f, static_cast<float>(windowXSize), static_cast<float>(windowYSize)));
+
+  updateTime = true;
+}
+
+void Mandelbrot::updatePanning(const sf::Vector2i &mousePos)
+{
+  // Move around the view. Maybe use keys instead?
+  sf::Vector2<float> viewCenter = view.getCenter();
+
+  const float moveSpeed = { view.getSize().x * MOVE_SPEED_FACTOR };
+
+  if (mousePos.x < static_cast<int>(static_cast<float>(windowXSize) * EDGE_PANE) && isMouseInWindow(mousePos))
+    viewCenter = sf::Vector2f(viewCenter.x - (moveSpeed), viewCenter.y);
+  if (mousePos.x > static_cast<int>(static_cast<float>(windowXSize) * (1.0f - EDGE_PANE)) && isMouseInWindow(mousePos))
+    viewCenter = sf::Vector2f(viewCenter.x + (moveSpeed), viewCenter.y);
+  if (mousePos.y < static_cast<int>(static_cast<float>(windowYSize) * EDGE_PANE) && isMouseInWindow(mousePos))
+    viewCenter = sf::Vector2f(viewCenter.x, viewCenter.y - (moveSpeed));
+  if (mousePos.y > static_cast<int>(static_cast<float>(windowYSize) * (1.0f - EDGE_PANE)) && isMouseInWindow(mousePos))
+    viewCenter = sf::Vector2f(viewCenter.x, viewCenter.y + (moveSpeed));
+
+  view.setCenter(viewCenter);
+
+  refreshPosition = view.getCenter();
+}
+
+void Mandelbrot::zoom(float zoomFactor)
+{
+  //zoom
+  view.zoom(zoomFactor);
+  refreshSize = view.getSize();
+}
+
+void Mandelbrot::updateImage()
+{
+  double x_step = (xRange.second - xRange.first) / windowXSize;
+  double y_step = (yRange.second - yRange.first) / windowYSize;
+
+  for (unsigned int yPixel = 0; yPixel < windowYSize; ++yPixel) {
+    for (unsigned int xPixel = 0; xPixel < windowXSize; ++xPixel) {
       double b = yRange.first + (yPixel * y_step);
       double a = xRange.first + (xPixel * x_step);
       std::complex<double> c = { a, b };
@@ -25,16 +101,7 @@ void Mandelbrot::runUpdate()
       drawImage.setPixel(xPixel, yPixel, pixel_color);
     }
   }
-}
-
-std::pair<double, double> Mandelbrot::getXRange() const
-{
-  return xRange;
-}
-
-std::pair<double, double> Mandelbrot::getYRange() const
-{
-  return yRange;
+  updateTime = false;
 }
 
 void Mandelbrot::setXrangeAbsolute(std::pair<double, double> newVal)
@@ -64,4 +131,9 @@ sf::Sprite &Mandelbrot::toSprite()
   drawTexture.loadFromImage(drawImage);
   drawSprite = sf::Sprite(drawTexture);
   return drawSprite;
+}
+
+sf::View &Mandelbrot::getView()
+{
+  return view;
 }

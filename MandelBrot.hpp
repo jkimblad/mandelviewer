@@ -9,31 +9,46 @@
 class Mandelbrot
 {
 public:
-  Mandelbrot(const unsigned int window_x_size, const unsigned int window_y_size, const unsigned int n_max);
+  Mandelbrot(const unsigned int, const unsigned int, const unsigned int, std::pair<double, double>, std::pair<double, double>);
 
-  void runUpdate();
+  void runUpdate(const sf::Vector2i &);
+
+  void updateImage();
 
   std::pair<double, double> getXRange() const;
 
   std::pair<double, double> getYRange() const;
 
-  void setXrangeAbsolute(std::pair<double, double> newVal);
-
-  void setYrangeAbsolute(std::pair<double, double> newVal);
-
-  void setXrangeRelative(double ratio);
-
-  void setYrangeRelative(double ratio);
+  sf::View &getView();
 
   sf::Sprite &toSprite();
 
+  void zoom(float);
+
+  void resetView();
+
+  void getMandelPoint(sf::Vector2f);
+
+
 private:
-  std::pair<double, double> xRange = { -2.0f, 1.0f };
-  std::pair<double, double> yRange = { -2.0f, 2.0f };
-  const unsigned int window_x_size;
-  const unsigned int window_y_size;
+  bool isMouseInWindow(const sf::Vector2i);
+  void updatePanning(const sf::Vector2i &mousePos);
+  const unsigned int windowXSize;
+  const unsigned int windowYSize;
   const unsigned int n_max;
+  std::pair<double, double> xRange = { -2.0f, 2.0f };
+  std::pair<double, double> yRange = { -2.0f, 2.0f };
+  sf::View view;
   sf::Image drawImage = {};
   sf::Texture drawTexture = {};
   sf::Sprite drawSprite = {};
+  bool updateTime = { true };
+  const float MOVE_SPEED_FACTOR = { 0.001f };
+  const float EDGE_PANE = { 0.15f };
+  void setXrangeAbsolute(std::pair<double, double> newVal);
+  void setYrangeAbsolute(std::pair<double, double> newVal);
+  void setXrangeRelative(double ratio);
+  void setYrangeRelative(double ratio);
+  sf::Vector2f refreshSize = {};
+  sf::Vector2f refreshPosition = {};
 };

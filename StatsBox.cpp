@@ -27,9 +27,6 @@ void StatsBox::update()
 void StatsBox::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   for (const auto &entry : statsEntries) {
-    std::cout << "string_text: " << entry->text.getString().toAnsiString() << "\n";
     target.draw(entry->text, states);
   }
-
-  return;
 }
