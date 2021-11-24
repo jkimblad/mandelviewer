@@ -7,26 +7,32 @@ StatsBox::StatsBox(float xPos, float yPos) : pos{ xPos, yPos }
   }
 }
 
-std::shared_ptr<StatsEntry> StatsBox::addStat(std::string key, std::string value)
+void StatsBox::addStat(std::string key, std::string value)
 {
-  std::shared_ptr<StatsEntry> statsEntry_sp = std::make_shared<StatsEntry, std::string &, std::string &, sf::Font &, const unsigned int &>(key, value, textFont, FONT_SIZE);
-  statsEntries.push_back(statsEntry_sp);
-  return statsEntries.back();
-}
-
-void StatsBox::update()
-{
-  unsigned int yOffset = 0;
-  for (long unsigned int i = 0; i < statsEntries.size(); ++i) {
-    std::shared_ptr<StatsEntry> stat = statsEntries.at(i);
-    stat->setPosition(sf::Vector2f(pos.x, pos.y + static_cast<float>(yOffset)));
-    yOffset += FONT_SIZE + Y_OFFSET_GAP;
-  }
+  //TODO: check for uniquness in entries
+  statsEntries.push_back(std::pair<std::string, std::string>(key, value));
 }
 
 void StatsBox::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+  float yOffset = 0;
+
   for (const auto &entry : statsEntries) {
-    target.draw(entry->text, states);
+    sf::Text text{ entry.first + ":\t" + entry.second, textFont };
+    text.setPosition(sf::Vector2f{ pos.x, pos.y + yOffset });
+    yOffset += static_cast<float>(FONT_SIZE + Y_OFFSET_GAP);
+    target.draw(text, states);
   }
+}
+
+void StatsBox::setValue(const std::string &key, const std::string &val)
+{
+  for (auto &entry : statsEntries) {
+    if (!entry.first.compare(key)) {
+      entry.second = val;
+      return;
+    }
+  }
+
+  throw std::runtime_error("Could not find key " + key + " in stats entries!");
 }

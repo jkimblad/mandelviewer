@@ -6,20 +6,19 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "StatsEntry.hpp"
-
 class StatsBox : public sf::Drawable
 {
 public:
   // Functions
   StatsBox(float, float);
-  std::shared_ptr<StatsEntry> addStat(std::string, std::string);
+  void addStat(std::string, std::string);
   void update();
+  void setValue(const std::string&, const std::string&);
 
 private:
   // Objects
   int updateTime = 0;
-  std::vector<std::shared_ptr<StatsEntry>> statsEntries = {};
+  std::vector<std::pair<std::string, std::string>> statsEntries = {};
   double scaleFactor = 1.0f;
   sf::Font textFont = {};
   unsigned int FONT_SIZE = 24;

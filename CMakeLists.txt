@@ -5,7 +5,7 @@ project(helloworld
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_library(stats StatsEntry.cpp StatsBox.cpp StatsEntry.hpp StatsBox.hpp)
+add_library(stats StatsBox.cpp StatsBox.hpp)
 add_library(mandel MandelBrot.cpp MandelBrot.hpp)
 add_executable(mandelbin main.cpp)
 

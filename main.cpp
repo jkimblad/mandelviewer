@@ -27,8 +27,9 @@ int main(int, char *[])
   Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
   mandel.runUpdate(sf::Mouse::getPosition(window));
 
-  StatsBox sb = { 0, -1 * static_cast<int>(WINDOW_Y_SIZE) };
-  std::shared_ptr<StatsEntry> updateTimeStat = sb.addStat({ "update_time" }, { "0" });
+  StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE};
+
+  sb.addStat("Update time", "0");
 
   // TODO: And is in focus
   while (window.isOpen()) {
@@ -56,7 +57,6 @@ int main(int, char *[])
           //zoom in
           mandel.zoom(2.0f);
         }
-        // Panning
       }
     }
 
@@ -66,10 +66,9 @@ int main(int, char *[])
     mandel.runUpdate(sf::Mouse::getPosition(window));
     auto timeStop = std::chrono::high_resolution_clock::now();
     long int updateTime = std::chrono::duration_cast<std::chrono::milliseconds>(timeStop - timeStart).count();
-    updateTimeStat->setValue(std::to_string(updateTime) + "ms");
-
-    // Update stats box
-    sb.update();
+    if (updateTime > 10) {
+      sb.setValue("Update time", std::to_string(updateTime) + "ms");
+    }
 
     // clear draw display
     window.clear();
