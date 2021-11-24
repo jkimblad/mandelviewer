@@ -33,9 +33,9 @@ public:
 private:
   bool isMouseInWindow(const sf::Vector2i);
   void updatePanning(const sf::Vector2i &mousePos);
-  const unsigned int windowXSize;
-  const unsigned int windowYSize;
-  const unsigned int n_max;
+  unsigned int windowXSize;
+  unsigned int windowYSize;
+  unsigned int n_max;
   std::pair<double, double> xRange = { -2.0f, 2.0f };
   std::pair<double, double> yRange = { -2.0f, 2.0f };
   sf::View view;
@@ -43,8 +43,8 @@ private:
   sf::Texture drawTexture = {};
   sf::Sprite drawSprite = {};
   bool updateTime = { true };
-  const float MOVE_SPEED_FACTOR = { 0.001f };
-  const float EDGE_PANE = { 0.15f };
+  float MOVE_SPEED_FACTOR = { 0.001f };
+  float EDGE_PANE = { 0.15f };
   void setXrangeAbsolute(std::pair<double, double> newVal);
   void setYrangeAbsolute(std::pair<double, double> newVal);
   void setXrangeRelative(double ratio);

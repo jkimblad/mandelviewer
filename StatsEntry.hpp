@@ -24,7 +24,7 @@ private:
   void clearUpdatedFlag();
   bool isDeleted() const;
   // Objects
-  const std::string key = {};
+  std::string key = {};
   sf::Text text = {};
   bool deleted = false;
 };
