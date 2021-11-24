@@ -97,7 +97,10 @@ void Mandelbrot::updateImage()
         z = std::pow(z, 2) + c;
         ++n;
       }
-      sf::Color pixel_color = { static_cast<uint8_t>(n * (255 / n_max)), 0, 0 };
+      int h = (255 * n) / static_cast<int>(n_max);
+      float s = 1.0f;
+      float v = (n < n_max) ? 1.f : 0.f;
+      sf::Color pixel_color = colorToHSV(h, s, v);
       drawImage.setPixel(xPixel, yPixel, pixel_color);
     }
   }
@@ -136,4 +139,41 @@ sf::Sprite &Mandelbrot::toSprite()
 sf::View &Mandelbrot::getView()
 {
   return view;
+}
+
+// hue: 0-360°; sat: 0.f-1.f; val: 0.f-1.f
+sf::Color Mandelbrot::colorToHSV(int hue, float sat, float val)
+{
+  hue %= 360;
+  while(hue<0) hue += 360;
+
+  if(sat<0.f) sat = 0.f;
+  if(sat>1.f) sat = 1.f;
+
+  if(val<0.f) val = 0.f;
+  if(val>1.f) val = 1.f;
+
+  int h = hue/60;
+  float f = static_cast<float>(hue)/60-static_cast<float>(h);
+  float p = val*(1.f-sat);
+  float q = val*(1.f-sat*f);
+  float t = val*(1.f-sat*(1-f));
+
+  sf::Uint8 uVal = static_cast<sf::Uint8>(val * 255);
+  sf::Uint8 uT = static_cast<sf::Uint8>(t * 255);
+  sf::Uint8 uP = static_cast<sf::Uint8>(p * 255);
+  sf::Uint8 uQ = static_cast<sf::Uint8>(q * 255);
+
+
+  switch(h)
+  {
+    default:
+    case 0:
+    case 6: return sf::Color(uVal, uT, uP);
+    case 1: return sf::Color(uQ, uVal, uP);
+    case 2: return sf::Color(uP, uVal, uT);
+    case 3: return sf::Color(uP, uQ, uVal);
+    case 4: return sf::Color(uT, uP, uVal);
+    case 5: return sf::Color(uVal, uP, uQ);
+  }
 }

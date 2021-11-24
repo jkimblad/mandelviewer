@@ -51,4 +51,5 @@ private:
   void setYrangeRelative(double ratio);
   sf::Vector2f refreshSize = {};
   sf::Vector2f refreshPosition = {};
+  sf::Color colorToHSV(int, float, float);
 };
