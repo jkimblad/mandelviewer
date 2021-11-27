@@ -114,7 +114,7 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
         z = std::pow(z, 2) + c;
         ++n;
       }
-      int h = (255 * n) / static_cast<int>(n_max);
+      int h = (360 * n) / static_cast<int>(n_max);
       float s = 1.0f;
       float v = (n < n_max) ? 1.f : 0.f;
       sf::Color pixel_color = colorToHSV(h, s, v);
