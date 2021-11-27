@@ -4,7 +4,7 @@ Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int win
   : windowXSize(window_x_size_),
     windowYSize(window_y_size_),
     n_max(n_max_),
-    noThread(threadNo),
+    noThreads(threadNo),
     xRange(xRange_),
     yRange(yRange_),
     view(sf::FloatRect(0.0f, 0.0f, static_cast<float>(window_x_size_), static_cast<float>(window_y_size_)))

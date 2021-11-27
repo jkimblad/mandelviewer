@@ -37,6 +37,7 @@ private:
   unsigned int windowXSize;
   unsigned int windowYSize;
   unsigned int n_max;
+  unsigned int noThreads = 1;
   std::pair<double, double> xRange = { -2.0f, 2.0f };
   std::pair<double, double> yRange = { -2.0f, 2.0f };
   sf::View view;
@@ -49,5 +50,4 @@ private:
   float EDGE_PANE = { 0.15f };
   sf::Vector2f refreshSize = {};
   sf::Vector2f refreshPosition = {};
-  unsigned int noThreads = 1;
 };
