@@ -47,10 +47,6 @@ private:
   bool updateTime = { true };
   float MOVE_SPEED_FACTOR = { 0.001f };
   float EDGE_PANE = { 0.15f };
-  void setXrangeAbsolute(std::pair<double, double> newVal);
-  void setYrangeAbsolute(std::pair<double, double> newVal);
-  void setXrangeRelative(double ratio);
-  void setYrangeRelative(double ratio);
   sf::Vector2f refreshSize = {};
   sf::Vector2f refreshPosition = {};
 };

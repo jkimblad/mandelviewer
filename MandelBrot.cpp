@@ -122,29 +122,6 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
       drawImage.setPixel(xPixel, yPixel, pixel_color);
     }
   }
-  updateTime = false;
-}
-
-void Mandelbrot::setXrangeAbsolute(std::pair<double, double> newVal)
-{
-  xRange = newVal;
-}
-
-void Mandelbrot::setYrangeAbsolute(std::pair<double, double> newVal)
-{
-  yRange = newVal;
-}
-
-void Mandelbrot::setXrangeRelative(double ratio)
-{
-  xRange.first = xRange.first * ratio;
-  xRange.second = xRange.second * ratio;
-}
-
-void Mandelbrot::setYrangeRelative(double ratio)
-{
-  yRange.first = yRange.first * ratio;
-  yRange.second = yRange.second * ratio;
 }
 
 sf::Sprite &Mandelbrot::toSprite()
