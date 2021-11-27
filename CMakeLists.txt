@@ -4,6 +4,7 @@ project(helloworld
         LANGUAGES CXX)
 
 set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_STANDARD 20)
 
 add_library(stats StatsBox.cpp StatsBox.hpp)
 add_library(mandel MandelBrot.cpp MandelBrot.hpp)
