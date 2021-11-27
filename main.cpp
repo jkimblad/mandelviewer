@@ -27,7 +27,7 @@ int main(int, char *[])
   Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
   mandel.runUpdate(sf::Mouse::getPosition(window));
 
-  StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE};
+  StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE };
 
   sb.addStat("Update time", "0");
 

@@ -11,31 +11,29 @@
 class Mandelbrot
 {
 public:
+  // Constructor
   Mandelbrot(const unsigned int, const unsigned int, const unsigned int, std::pair<double, double>, std::pair<double, double>);
 
+  // Functions
   void runUpdate(const sf::Vector2i &);
-
   void updateImage();
-
   std::pair<double, double> getXRange() const;
-
   std::pair<double, double> getYRange() const;
-
   sf::View &getView();
-
   sf::Sprite &toSprite();
-
   void zoom(float);
-
   void resetView();
-
   void getMandelPoint(sf::Vector2f);
 
 
 private:
+  // Functions
   bool isMouseInWindow(const sf::Vector2i);
   void updatePanning(const sf::Vector2i &mousePos);
+  sf::Color colorToHSV(int, float, float);
   void mandelWorker(const sf::Vector2u, const sf::Vector2u);
+
+  // Objects
   unsigned int windowXSize;
   unsigned int windowYSize;
   unsigned int n_max;
@@ -55,5 +53,4 @@ private:
   void setYrangeRelative(double ratio);
   sf::Vector2f refreshSize = {};
   sf::Vector2f refreshPosition = {};
-  sf::Color colorToHSV(int, float, float);
 };

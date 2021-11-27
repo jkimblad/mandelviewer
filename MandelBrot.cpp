@@ -83,10 +83,10 @@ void Mandelbrot::zoom(float zoomFactor)
 
 void Mandelbrot::updateImage()
 {
-  std::thread worker1(&Mandelbrot::mandelWorker, this, sf::Vector2u{0, 0}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
-  std::thread worker2(&Mandelbrot::mandelWorker, this, sf::Vector2u{windowXSize / 2, windowYSize / 2}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
-  std::thread worker3(&Mandelbrot::mandelWorker, this, sf::Vector2u{windowXSize / 2, 0}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
-  std::thread worker4(&Mandelbrot::mandelWorker, this, sf::Vector2u{0, windowYSize / 2}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
+  std::thread worker1(&Mandelbrot::mandelWorker, this, sf::Vector2u{ 0, 0 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
+  std::thread worker2(&Mandelbrot::mandelWorker, this, sf::Vector2u{ windowXSize / 2, windowYSize / 2 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
+  std::thread worker3(&Mandelbrot::mandelWorker, this, sf::Vector2u{ windowXSize / 2, 0 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
+  std::thread worker4(&Mandelbrot::mandelWorker, this, sf::Vector2u{ 0, windowYSize / 2 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
 
   worker1.join();
   worker2.join();
@@ -101,7 +101,7 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
   double x_step = (xRange.second - xRange.first) / windowXSize;
   double y_step = (yRange.second - yRange.first) / windowYSize;
 
-  sf::Vector2u endPoint = {position.x + size.x, position.y + size.y};
+  sf::Vector2u endPoint = { position.x + size.x, position.y + size.y };
 
   for (unsigned int yPixel = position.y; yPixel < endPoint.y; ++yPixel) {
     for (unsigned int xPixel = position.x; xPixel < endPoint.x; ++xPixel) {
@@ -163,19 +163,19 @@ sf::View &Mandelbrot::getView()
 sf::Color Mandelbrot::colorToHSV(int hue, float sat, float val)
 {
   hue %= 360;
-  while(hue<0) hue += 360;
+  while (hue < 0) hue += 360;
 
-  if(sat<0.f) sat = 0.f;
-  if(sat>1.f) sat = 1.f;
+  if (sat < 0.f) sat = 0.f;
+  if (sat > 1.f) sat = 1.f;
 
-  if(val<0.f) val = 0.f;
-  if(val>1.f) val = 1.f;
+  if (val < 0.f) val = 0.f;
+  if (val > 1.f) val = 1.f;
 
-  int h = hue/60;
-  float f = static_cast<float>(hue)/60-static_cast<float>(h);
-  float p = val*(1.f-sat);
-  float q = val*(1.f-sat*f);
-  float t = val*(1.f-sat*(1-f));
+  int h = hue / 60;
+  float f = static_cast<float>(hue) / 60 - static_cast<float>(h);
+  float p = val * (1.f - sat);
+  float q = val * (1.f - sat * f);
+  float t = val * (1.f - sat * (1 - f));
 
   sf::Uint8 uVal = static_cast<sf::Uint8>(val * 255);
   sf::Uint8 uT = static_cast<sf::Uint8>(t * 255);
@@ -183,15 +183,20 @@ sf::Color Mandelbrot::colorToHSV(int hue, float sat, float val)
   sf::Uint8 uQ = static_cast<sf::Uint8>(q * 255);
 
 
-  switch(h)
-  {
-    default:
-    case 0:
-    case 6: return sf::Color(uVal, uT, uP);
-    case 1: return sf::Color(uQ, uVal, uP);
-    case 2: return sf::Color(uP, uVal, uT);
-    case 3: return sf::Color(uP, uQ, uVal);
-    case 4: return sf::Color(uT, uP, uVal);
-    case 5: return sf::Color(uVal, uP, uQ);
+  switch (h) {
+  default:
+  case 0:
+  case 6:
+    return sf::Color(uVal, uT, uP);
+  case 1:
+    return sf::Color(uQ, uVal, uP);
+  case 2:
+    return sf::Color(uP, uVal, uT);
+  case 3:
+    return sf::Color(uP, uQ, uVal);
+  case 4:
+    return sf::Color(uT, uP, uVal);
+  case 5:
+    return sf::Color(uVal, uP, uQ);
   }
 }

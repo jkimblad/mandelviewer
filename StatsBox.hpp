@@ -13,7 +13,7 @@ public:
   StatsBox(float, float);
   void addStat(std::string, std::string);
   void update();
-  void setValue(const std::string&, const std::string&);
+  void setValue(const std::string &, const std::string &);
 
 private:
   // Objects
