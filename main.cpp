@@ -12,6 +12,7 @@
 const int WINDOW_X_SIZE = 1920;
 const int WINDOW_Y_SIZE = 1080;
 const int N_MAX = 25;
+const int THREAD_COUNT = 4;
 const float MOVE_SPEED = 1.0f;
 const float EDGE_PANE = 0.15f;
 
@@ -24,7 +25,7 @@ int main(int, char *[])
   sf::Text temp = { "testing", tempFont };
   sf::View guiView{ sf::FloatRect(0.0f, -1.0f * static_cast<float>(WINDOW_Y_SIZE), WINDOW_X_SIZE, WINDOW_Y_SIZE) };
 
-  Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
+  Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, THREAD_COUNT, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
   mandel.runUpdate(sf::Mouse::getPosition(window));
 
   StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE };

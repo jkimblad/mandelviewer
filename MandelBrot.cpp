@@ -1,9 +1,10 @@
 #include "MandelBrot.hpp"
 
-Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_, std::pair<double, double> xRange_, std::pair<double, double> yRange_)
+Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_, const unsigned int threadNo, std::pair<double, double> xRange_, std::pair<double, double> yRange_)
   : windowXSize(window_x_size_),
     windowYSize(window_y_size_),
     n_max(n_max_),
+    noThread(threadNo),
     xRange(xRange_),
     yRange(yRange_),
     view(sf::FloatRect(0.0f, 0.0f, static_cast<float>(window_x_size_), static_cast<float>(window_y_size_)))
@@ -83,15 +84,15 @@ void Mandelbrot::zoom(float zoomFactor)
 
 void Mandelbrot::updateImage()
 {
-  std::thread worker1(&Mandelbrot::mandelWorker, this, sf::Vector2u{ 0, 0 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
-  std::thread worker2(&Mandelbrot::mandelWorker, this, sf::Vector2u{ windowXSize / 2, windowYSize / 2 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
-  std::thread worker3(&Mandelbrot::mandelWorker, this, sf::Vector2u{ windowXSize / 2, 0 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
-  std::thread worker4(&Mandelbrot::mandelWorker, this, sf::Vector2u{ 0, windowYSize / 2 }, sf::Vector2u{ windowXSize / 2, windowYSize / 2 });
+  std::vector<std::thread> workers = {};
+  for (unsigned int i = 0; i < noThreads; i++) {
+    std::thread worker(&Mandelbrot::mandelWorker, this, sf::Vector2u{ i * (windowXSize / noThreads), 0 }, sf::Vector2u{ windowXSize / noThreads, windowYSize });
+    workers.push_back(std::move(worker));
+  }
 
-  worker1.join();
-  worker2.join();
-  worker3.join();
-  worker4.join();
+  for (auto &thread : workers) {
+    thread.join();
+  }
 
   updateTime = false;
 }

@@ -12,7 +12,7 @@ class Mandelbrot
 {
 public:
   // Constructor
-  Mandelbrot(const unsigned int, const unsigned int, const unsigned int, std::pair<double, double>, std::pair<double, double>);
+  Mandelbrot(const unsigned int, const unsigned int, const unsigned int, const unsigned int, std::pair<double, double>, std::pair<double, double>);
 
   // Functions
   void runUpdate(const sf::Vector2i &);
@@ -49,4 +49,5 @@ private:
   float EDGE_PANE = { 0.15f };
   sf::Vector2f refreshSize = {};
   sf::Vector2f refreshPosition = {};
+  unsigned int noThreads = 1;
 };
