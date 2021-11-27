@@ -61,13 +61,18 @@ void Mandelbrot::updatePanning(const sf::Vector2i &mousePos)
 
   const float moveSpeed = { view.getSize().x * MOVE_SPEED_FACTOR };
 
-  if (mousePos.x < static_cast<int>(static_cast<float>(windowXSize) * EDGE_PANE) && isMouseInWindow(mousePos))
+  // Dont pane unless mouse is within window borders
+  if (!isMouseInWindow(mousePos)) {
+    return;
+  }
+
+  if (mousePos.x < static_cast<int>(static_cast<float>(windowXSize) * EDGE_PANE))
     viewCenter = sf::Vector2f(viewCenter.x - (moveSpeed), viewCenter.y);
-  if (mousePos.x > static_cast<int>(static_cast<float>(windowXSize) * (1.0f - EDGE_PANE)) && isMouseInWindow(mousePos))
+  if (mousePos.x > static_cast<int>(static_cast<float>(windowXSize) * (1.0f - EDGE_PANE)))
     viewCenter = sf::Vector2f(viewCenter.x + (moveSpeed), viewCenter.y);
-  if (mousePos.y < static_cast<int>(static_cast<float>(windowYSize) * EDGE_PANE) && isMouseInWindow(mousePos))
+  if (mousePos.y < static_cast<int>(static_cast<float>(windowYSize) * EDGE_PANE))
     viewCenter = sf::Vector2f(viewCenter.x, viewCenter.y - (moveSpeed));
-  if (mousePos.y > static_cast<int>(static_cast<float>(windowYSize) * (1.0f - EDGE_PANE)) && isMouseInWindow(mousePos))
+  if (mousePos.y > static_cast<int>(static_cast<float>(windowYSize) * (1.0f - EDGE_PANE)))
     viewCenter = sf::Vector2f(viewCenter.x, viewCenter.y + (moveSpeed));
 
   view.setCenter(viewCenter);
