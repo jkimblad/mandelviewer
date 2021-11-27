@@ -83,11 +83,28 @@ void Mandelbrot::zoom(float zoomFactor)
 
 void Mandelbrot::updateImage()
 {
+  std::thread worker1(&Mandelbrot::mandelWorker, this, sf::Vector2u{0, 0}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
+  std::thread worker2(&Mandelbrot::mandelWorker, this, sf::Vector2u{windowXSize / 2, windowYSize / 2}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
+  std::thread worker3(&Mandelbrot::mandelWorker, this, sf::Vector2u{windowXSize / 2, 0}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
+  std::thread worker4(&Mandelbrot::mandelWorker, this, sf::Vector2u{0, windowYSize / 2}, sf::Vector2u{windowXSize / 2, windowYSize / 2});
+
+  worker1.join();
+  worker2.join();
+  worker3.join();
+  worker4.join();
+
+  updateTime = false;
+}
+
+void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u size)
+{
   double x_step = (xRange.second - xRange.first) / windowXSize;
   double y_step = (yRange.second - yRange.first) / windowYSize;
 
-  for (unsigned int yPixel = 0; yPixel < windowYSize; ++yPixel) {
-    for (unsigned int xPixel = 0; xPixel < windowXSize; ++xPixel) {
+  sf::Vector2u endPoint = {position.x + size.x, position.y + size.y};
+
+  for (unsigned int yPixel = position.y; yPixel < endPoint.y; ++yPixel) {
+    for (unsigned int xPixel = position.x; xPixel < endPoint.x; ++xPixel) {
       double b = yRange.first + (yPixel * y_step);
       double a = xRange.first + (xPixel * x_step);
       std::complex<double> c = { a, b };
@@ -101,6 +118,7 @@ void Mandelbrot::updateImage()
       float s = 1.0f;
       float v = (n < n_max) ? 1.f : 0.f;
       sf::Color pixel_color = colorToHSV(h, s, v);
+      std::scoped_lock lock(drawImageMutex);
       drawImage.setPixel(xPixel, yPixel, pixel_color);
     }
   }

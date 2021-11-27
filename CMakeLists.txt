@@ -18,6 +18,10 @@ set_project_warnings(mandelbin)
 
 target_link_libraries(mandel PUBLIC stats)
 
+# Add pthreads
+find_package(Threads REQUIRED)
+target_link_libraries(mandel PRIVATE Threads::Threads)
+
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window system)

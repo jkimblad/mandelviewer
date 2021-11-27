@@ -3,6 +3,8 @@
 #include <complex>
 #include <chrono>
 #include <iostream>
+#include <thread>
+#include <mutex>
 
 #include <SFML/Graphics.hpp>
 
@@ -33,12 +35,14 @@ public:
 private:
   bool isMouseInWindow(const sf::Vector2i);
   void updatePanning(const sf::Vector2i &mousePos);
+  void mandelWorker(const sf::Vector2u, const sf::Vector2u);
   unsigned int windowXSize;
   unsigned int windowYSize;
   unsigned int n_max;
   std::pair<double, double> xRange = { -2.0f, 2.0f };
   std::pair<double, double> yRange = { -2.0f, 2.0f };
   sf::View view;
+  std::mutex drawImageMutex;
   sf::Image drawImage = {};
   sf::Texture drawTexture = {};
   sf::Sprite drawSprite = {};
