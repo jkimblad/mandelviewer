@@ -43,7 +43,6 @@ private:
   std::pair<double, double> xRange = { -2.0f, 2.0f };
   std::pair<double, double> yRange = { -2.0f, 2.0f };
   sf::View view;
-  std::mutex drawImageMutex;
   sf::Image drawImage = {};
   sf::Texture drawTexture = {};
   sf::Sprite drawSprite = {};

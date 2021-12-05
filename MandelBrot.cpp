@@ -106,7 +106,6 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
 {
   double x_step = (xRange.second - xRange.first) / windowXSize;
   double y_step = (yRange.second - yRange.first) / windowYSize;
-
   sf::Vector2u endPoint = { position.x + size.x, position.y + size.y };
 
   for (unsigned int yPixel = position.y; yPixel < endPoint.y; ++yPixel) {
@@ -123,7 +122,6 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
       int h = static_cast<int>((360 * n) / n_max);
       float s = 1.0f;
       float v = (n < n_max) ? 1.f : 0.f;
-      std::scoped_lock lock(drawImageMutex);
       sf::Color pixelColor = sfh::hSVToColor(h, s, v);
       drawImage.setPixel(xPixel, yPixel, pixelColor);
     }
@@ -133,7 +131,7 @@ void Mandelbrot::mandelWorker(const sf::Vector2u position, const sf::Vector2u si
 sf::Sprite &Mandelbrot::toSprite()
 {
   drawTexture.loadFromImage(drawImage);
-  drawSprite = sf::Sprite(drawTexture);
+  drawSprite = sf::Sprite{ drawTexture };
   return drawSprite;
 }
 
