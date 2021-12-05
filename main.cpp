@@ -26,7 +26,6 @@ int main(int, char *[])
   sf::View guiView{ sf::FloatRect(0.0f, -1.0f * static_cast<float>(WINDOW_Y_SIZE), WINDOW_X_SIZE, WINDOW_Y_SIZE) };
 
   Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, THREAD_COUNT, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
-  mandel.runUpdate(sf::Mouse::getPosition(window));
 
   StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE };
 
