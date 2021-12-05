@@ -34,6 +34,8 @@ int main(int, char *[])
 
   // TODO: And is in focus
   while (window.isOpen()) {
+    if (!window.hasFocus())
+      continue;
 
     // SF events
     sf::Event event;
