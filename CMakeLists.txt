@@ -8,19 +8,24 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(stats StatsBox.cpp StatsBox.hpp)
 add_library(mandel MandelBrot.cpp MandelBrot.hpp)
+add_library(sfmlhelper SFHelper.hpp)
 add_executable(mandelbin main.cpp)
+
+# sfmlhelper is cpp
+set_target_properties(sfmlhelper PROPERTIES LINKER_LANGUAGE CXX)
 
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(stats)
 set_project_warnings(mandel)
+set_project_warnings(sfmlhelper)
 set_project_warnings(mandelbin)
 
 target_link_libraries(mandel PUBLIC stats)
-
 # Add pthreads
 find_package(Threads REQUIRED)
 target_link_libraries(mandel PRIVATE Threads::Threads)
+target_link_libraries(mandel PRIVATE sfmlhelper)
 
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})

@@ -8,6 +8,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "SFHelper.hpp"
+
 class Mandelbrot
 {
 public:
