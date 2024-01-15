@@ -1,11 +1,5 @@
 #pragma once
 
-#include <complex>
-#include <chrono>
-#include <iostream>
-#include <thread>
-#include <mutex>
-
 #include <SFML/Graphics.hpp>
 
 #include "SFHelper.hpp"
