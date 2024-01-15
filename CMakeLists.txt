@@ -3,13 +3,13 @@ project(helloworld
         VERSION 1.0
         LANGUAGES CXX)
 
-set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(stats StatsBox.cpp StatsBox.hpp)
 add_library(mandel MandelBrot.cpp MandelBrot.hpp)
 add_library(sfmlhelper SFHelper.hpp)
-add_executable(mandelbin main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
 # sfmlhelper is cpp
 set_target_properties(sfmlhelper PROPERTIES LINKER_LANGUAGE CXX)
@@ -17,23 +17,19 @@ set_target_properties(sfmlhelper PROPERTIES LINKER_LANGUAGE CXX)
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(stats)
-set_project_warnings(mandel)
+set_project_warnings(${PROJECT_NAME})
 set_project_warnings(sfmlhelper)
-set_project_warnings(mandelbin)
 
-target_link_libraries(mandel PUBLIC stats)
 # Add pthreads
 find_package(Threads REQUIRED)
-target_link_libraries(mandel PRIVATE Threads::Threads)
-target_link_libraries(mandel PRIVATE sfmlhelper)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfmlhelper)
 
 # Detect and add SFML
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window system)
-target_link_libraries(mandelbin
-        ${SFML_LIBRARIES} 
-        ${SFML_DEPENDENCIES}
-        mandel)
+find_package(SFML REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC mandel stats)
+target_link_libraries(stats PUBLIC sfml::sfml)
+target_link_libraries(mandel PUBLIC sfml::sfml)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
         add_compile_options(-fcolor-diagnostics)
