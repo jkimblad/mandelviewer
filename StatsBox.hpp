@@ -10,9 +10,26 @@ class StatsBox : public sf::Drawable
 {
 public:
   // Functions
+  /*!
+   * \brief Constructor.
+   *
+   * \param xPos Specifies the top-left corners position.
+   * \param yPos Specifies the top-left corners position.
+   */
   StatsBox(float, float);
+  /*!
+   * \brief Adds a stat consisting of a name/key and its value to be rendered in the StatsBox.
+   *
+   * \param key The key or the name of the value to be displayed.
+   * \param value The corresponding value to be displayed.
+   */
   void addStat(std::string, std::string);
-  void update();
+  /*!
+   * \brief Set or update the value for a given key.
+   *
+   * \param key The key or the name of the value to be set/updated.
+   * \param val The value to be set/updated.
+   */
   void setValue(const std::string &, const std::string &);
 
 private:
