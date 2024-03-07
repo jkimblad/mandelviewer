@@ -82,19 +82,19 @@ private:
   void mandelWorker(const sf::Vector2u, const sf::Vector2u);
 
   // Objects
-  unsigned int windowXSize;
-  unsigned int windowYSize;
-  unsigned int n_max;
-  unsigned int noThreads = 1;
-  std::pair<double, double> xRange = { -2.0f, 2.0f };
-  std::pair<double, double> yRange = { -2.0f, 2.0f };
-  sf::View view;
-  sf::Image drawImage = {};
-  sf::Texture drawTexture = {};
-  sf::Sprite drawSprite = {};
-  bool updateTime = { true };
-  float MOVE_SPEED_FACTOR = { 0.001f };
-  float EDGE_PANE = { 0.15f };
-  sf::Vector2f refreshSize = {};
-  sf::Vector2f refreshPosition = {};
+  unsigned int windowXSize {};
+  unsigned int windowYSize {};
+  unsigned int n_max {};
+  unsigned int noThreads {4};
+  std::pair<double, double> xRange { -2.0f, 2.0f };
+  std::pair<double, double> yRange { -2.0f, 2.0f };
+  sf::View view {};
+  sf::Image drawImage {};
+  sf::Texture drawTexture {};
+  sf::Sprite drawSprite {};
+  bool updateTime {true};
+  float MOVE_SPEED_FACTOR {0.001f};
+  float EDGE_PANE {0.15f};
+  sf::Vector2f refreshSize {};
+  sf::Vector2f refreshPosition {};
 };
