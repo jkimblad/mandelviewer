@@ -1,4 +1,6 @@
 #include "MandelBrot.hpp"
+#include <thread>
+#include <complex>
 
 Mandelbrot::Mandelbrot(const unsigned int window_x_size_, const unsigned int window_y_size_, const unsigned int n_max_, const unsigned int threadNo, std::pair<double, double> xRange_, std::pair<double, double> yRange_)
   : windowXSize(window_x_size_),
