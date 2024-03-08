@@ -9,25 +9,23 @@
 // TODO: multithread mandelbrot calculations, split screen into sections
 // TODO: Only recalculate screen when zoom reaches THRESHHOLD. Display old calculations until the new one is fully ready.
 
-const int WINDOW_X_SIZE = 1920;
-const int WINDOW_Y_SIZE = 1080;
-const int N_MAX = 25;
-const int THREAD_COUNT = 4;
-const float MOVE_SPEED = 1.0f;
-const float EDGE_PANE = 0.15f;
+namespace Constants {
+  constexpr int WINDOW_X_SIZE {1920};
+  constexpr int WINDOW_Y_SIZE {1080};
+  constexpr int N_MAX {125};
+  constexpr int THREAD_COUNT {4};
+  constexpr float EDGE_PANE {0.15f};
+}
 
 int main(int, char *[])
 {
+  //ContextSettings (unsigned int depth=0, unsigned int stencil=0, unsigned int antialiasing=0, unsigned int major=1, unsigned int minor=1, unsigned int attributes=Default, bool sRgb=false)
+  sf::RenderWindow window(sf::VideoMode(Constants::WINDOW_X_SIZE, Constants::WINDOW_Y_SIZE), "Mandelbrot");
+  sf::View guiView{ sf::FloatRect(0.0f, -1.0f * static_cast<float>(Constants::WINDOW_Y_SIZE), Constants::WINDOW_X_SIZE, Constants::WINDOW_Y_SIZE) };
 
-  sf::RenderWindow window(sf::VideoMode(WINDOW_X_SIZE, WINDOW_Y_SIZE), "Mandelbrot");
-  sf::Font tempFont = {};
-  tempFont.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-  sf::Text temp = { "testing", tempFont };
-  sf::View guiView{ sf::FloatRect(0.0f, -1.0f * static_cast<float>(WINDOW_Y_SIZE), WINDOW_X_SIZE, WINDOW_Y_SIZE) };
+  Mandelbrot mandel = { Constants::WINDOW_X_SIZE, Constants::WINDOW_Y_SIZE, Constants::N_MAX, Constants::THREAD_COUNT, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
 
-  Mandelbrot mandel = { WINDOW_X_SIZE, WINDOW_Y_SIZE, N_MAX, THREAD_COUNT, std::pair<double, double>(-2.0f, 2.0f), std::pair<double, double>(-2.0f, 2.0f) };
-
-  StatsBox sb = { 25.f, -1.f * WINDOW_Y_SIZE };
+  StatsBox sb = { 25.f, -1.f * Constants::WINDOW_Y_SIZE };
 
   sb.addStat("Update time", "0");
 
