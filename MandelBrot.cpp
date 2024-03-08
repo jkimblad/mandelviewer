@@ -34,15 +34,15 @@ bool Mandelbrot::isMouseInWindow(const sf::Vector2i mousePos)
 
 void Mandelbrot::resetView()
 {
-  sf::Vector2f viewCenter = view.getCenter();
-  sf::Vector2f viewSize = view.getSize();
-  sf::Vector2f topLeft{ viewCenter.x - (viewSize.x / 2),
-    viewCenter.y - (viewSize.y / 2) };
-  sf::Vector2f bottomRight{ topLeft.x + viewSize.x, topLeft.y + viewSize.y };
+  sf::Vector2f viewCenter {view.getCenter()};
+  sf::Vector2f viewSize {view.getSize()};
+  sf::Vector2f topLeft {viewCenter.x - (viewSize.x / 2),
+    viewCenter.y - (viewSize.y / 2)};
+  sf::Vector2f bottomRight {topLeft.x + viewSize.x, topLeft.y + viewSize.y};
 
   // first element is top left, second is bottom right
-  std::pair<double, double> xRatio = { topLeft.x / static_cast<float>(windowXSize), bottomRight.x / static_cast<float>(windowXSize) };
-  std::pair<double, double> yRatio = { topLeft.y / static_cast<float>(windowYSize), bottomRight.y / static_cast<float>(windowYSize) };
+  std::pair<double, double> xRatio {topLeft.x / static_cast<float>(windowXSize), bottomRight.x / static_cast<float>(windowXSize)};
+  std::pair<double, double> yRatio {topLeft.y / static_cast<float>(windowYSize), bottomRight.y / static_cast<float>(windowYSize)};
 
   xRange = {
     xRange.first + ((xRange.second - xRange.first) * xRatio.first), xRange.first + ((xRange.second - xRange.first) * xRatio.second)
