@@ -48,6 +48,17 @@ int main(int, char *[])
         }
       }
 
+      // KEYBOARD SCROLL
+      if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::A) {
+          mandel.zoom(0.5f);
+        }
+        else if (event.key.code == sf::Keyboard::Z) {
+          mandel.zoom(2.0f);
+        }
+      }
+
+      // MOUSE SCROLL
       if (event.type == sf::Event::MouseWheelScrolled) {
         // Mouse wheel
         if (event.mouseWheelScroll.delta > 0) {
